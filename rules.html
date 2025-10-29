@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Правила | Rust Server</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Russo One', sans-serif;
+  background: url('rust-bg.jpg') center/cover no-repeat fixed;
+  color: #eaeaea;
+  text-shadow: 1px 1px 2px #000;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top:0; left:0; right:0; bottom:0;
+  background: rgba(10,0,20,0.7);
+  z-index: -1;
+}
+
+/* Шапка */
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 10px;
+  background: linear-gradient(180deg, rgba(25,0,40,0.95), rgba(10,0,20,0.9));
+  border-bottom: 3px solid #b84cff;
+}
+header h1 { margin:0; color:#b84cff; font-size:2em; }
+
+nav {
+  margin-top:10px;
+  display: flex;
+  gap:10px;
+}
+
+.nav-link {
+  color: #ccc;
+  text-decoration:none;
+  font-weight:bold;
+  transition:0.3s;
+  padding:6px 12px;
+  border-radius:6px;
+  text-shadow:0 0 0px #000;
+}
+.nav-link.active,
+.nav-link:hover {
+  color: #ff4fd8;
+  text-shadow: 0 0 12px #ff4fd8, 0 0 25px rgba(184,76,255,0.6);
+  background: none; /* без розового */
+}
+
+/* Контент */
+.content {
+  max-width:600px;
+  margin:60px auto;
+  background: rgba(15,0,25,0.85);
+  padding:40px;
+  border-radius:12px;
+  text-align:center;
+  border:1px solid rgba(184,76,255,0.3);
+  box-shadow:0 0 25px rgba(184,76,255,0.2);
+}
+
+/* Аккордеон */
+.accordion {
+  background: rgba(15,0,25,0.85); /* тёмный */
+  color: #eaeaea;
+  cursor: pointer;
+  padding: 15px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 1.1em;
+  margin-bottom: 5px;
+  border-radius:8px;
+  transition: 0.3s;
+  border-left: 4px solid #b84cff;
+  box-shadow:0 0 10px rgba(184,76,255,0.3);
+}
+.accordion:hover,
+.accordion.active {
+  box-shadow: 0 0 20px #ff4fd8;
+}
+
+.panel {
+  padding: 0 15px 10px 15px;
+  background-color: rgba(15,0,25,0.8);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  border-radius:6px;
+  border-left: 4px solid #ff4fd8;
+  margin-bottom: 10px;
+}
+
+.panel ul { list-style:none; padding-left:10px; text-align:left; }
+.panel li { padding:5px 0; }
+
+/* Кнопка Discord */
+.button {
+  display: inline-block;
+  padding: 12px 25px;
+  background: #b84cff;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  margin-top: 15px;
+  box-shadow:0 0 15px rgba(184,76,255,0.5);
+  transition: 0.3s;
+}
+.button:hover {
+  background: #ff4fd8;
+  box-shadow:0 0 25px rgba(255,79,216,0.7);
+}
+
+/* Подвал */
+footer {
+  text-align:center;
+  padding:25px;
+  background: rgba(15,0,25,0.9);
+  color:#aaa;
+  border-top:2px solid rgba(184,76,255,0.3);
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Rust Server</h1>
+  <nav>
+    <a href="index.html" class="nav-link">Главная</a>
+    <a href="news.html" class="nav-link">Новости</a>
+    <a href="rules.html" class="nav-link active">Правила</a>
+    <a href="donate.html" class="nav-link">Донат</a>
+    <a href="social.html" class="nav-link">Соцсети</a>
+  </nav>
+</header>
+
+<div class="content">
+<h2>Правила сервера</h2>
+
+<button class="accordion">⚔ PvP и рейды</button>
+<div class="panel">
+  <ul>
+    <li>❌ Грифинг без PvP запрещён</li>
+    <li>✅ Защищайте свои базы честно</li>
+  </ul>
+</div>
+
+<button class="accordion">🛠 Читерство и баги</button>
+<div class="panel">
+  <ul>
+    <li>❌ Запрещены читы, эксплойты и баги</li>
+    <li>✅ Сообщайте о найденных багах администрации</li>
+  </ul>
+</div>
+
+<button class="accordion">💬 Общение</button>
+<div class="panel">
+  <ul>
+    <li>❌ Оскорбления игроков и администрации запрещены</li>
+    <li>✅ Уважайте других и помогайте новичкам</li>
+  </ul>
+</div>
+
+<button class="accordion">📢 Новости и события</button>
+<div class="panel">
+  <ul>
+    <li>✅ Следите за событиями и обновлениями в Discord</li>
+  </ul>
+</div>
+
+<a class="button" href="discord.html">Обсудить правила в Discord</a>
+</div>
+
+<footer>
+© 2025 Rust Server | Сделано с ❤️
+</footer>
+
+<script>
+// Скрипт аккордеона
+const acc = document.getElementsByClassName("accordion");
+for (let i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    const panel = this.nextElementSibling;
+    if(panel.style.maxHeight){
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    }
+  });
+}
+</script>
+</body>
+</html>

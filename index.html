@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MiddelWay | Главная</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
+:root {
+    --main-color: #b84cff;
+    --accent-color: #ff4fd8;
+}
+
+body {
+    margin: 0;
+    font-family: 'Russo One', sans-serif;
+    background: url('rust-bg.jpg') center/cover no-repeat fixed;
+    color: #eaeaea;
+    text-shadow: 1px 1px 2px #000;
+}
+body::before {
+    content: "";
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(10,0,20,0.7);
+    z-index: -1;
+}
+
+header {
+    background: linear-gradient(180deg, rgba(25,0,40,0.95), rgba(10,0,20,0.9));
+    padding: 25px 0;
+    text-align: center;
+    border-bottom: 3px solid var(--main-color);
+    box-shadow: 0 0 25px rgba(184,76,255,0.3);
+}
+header h1 { margin:0; color: var(--main-color); letter-spacing:3px; font-size:2.4em; text-shadow:0 0 15px rgba(184,76,255,0.7); }
+nav a {
+    color: #ccc;
+    margin: 0 15px;
+    text-decoration:none;
+    font-weight:bold;
+    transition:0.3s;
+}
+nav a:hover, nav a.active {
+    color: var(--accent-color);
+    text-shadow: 0 0 8px var(--accent-color);
+}
+
+/* Контент */
+.content {
+    max-width: 1000px;
+    margin: 60px auto;
+    background: rgba(15,0,25,0.85);
+    padding: 40px;
+    border-radius: 12px;
+    border:1px solid rgba(184,76,255,0.3);
+    box-shadow:0 0 30px rgba(184,76,255,0.2);
+    animation: fadeIn 1.2s ease;
+}
+@keyframes fadeIn { from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
+.content h2 { text-align:center; color: var(--main-color); text-transform: uppercase; letter-spacing:2px; text-shadow:0 0 15px rgba(184,76,255,0.7); }
+.content p { line-height:1.6; font-size:1.1em; }
+.button {
+    display:inline-block; padding:12px 25px; background: var(--accent-color); color:#fff; border-radius:8px; text-decoration:none; font-size:1.1em; box-shadow:0 0 15px rgba(255,79,216,0.5); transition:0.3s;
+}
+.button:hover { background: var(--main-color); box-shadow:0 0 25px rgba(184,76,255,0.7); }
+
+/* Онлайн и статус */
+.status-box, .online-box {
+    display:flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    font-size:1.2em;
+}
+.status-box div, .online-box div {
+    background: rgba(40,0,50,0.8);
+    padding: 15px 25px;
+    border-radius: 10px;
+    border:1px solid var(--accent-color);
+    text-align:center;
+    flex:1;
+    margin: 0 10px;
+    transition:0.3s;
+}
+.status-box div:hover, .online-box div:hover {
+    box-shadow:0 0 20px var(--accent-color);
+    text-shadow:0 0 8px var(--accent-color);
+}
+
+/* Исправленный футер */
+footer {
+    width: 100%;
+    text-align: center;
+    padding: 25px;
+    background: rgba(15,0,25,0.9);
+    color:#aaa;
+    border-top:2px solid rgba(184,76,255,0.3);
+    box-sizing: border-box;
+}
+</style>
+</head>
+<body>
+<header>
+    <h1>Rust Server</h1>
+    <nav>
+        <a href="index.html" class="active">Главная</a>
+        <a href="news.html">Новости</a>
+        <a href="rules.html">Правила</a>
+        <a href="donate.html">Донат</a>
+        <a href="social.html">Соцсети</a>
+    </nav>
+</header>
+
+<div class="content">
+    <h2>Добро пожаловать на Rust Server!</h2>
+    <p>У нас честная игра, активная администрация и постоянные эвенты. Присоединяйся прямо сейчас!</p>
+    <a class="button" href="steam://connect/127.0.0.1:28015">Подключиться к серверу</a>
+
+    <h3>Онлайн игроков:</h3>
+    <div class="online-box">
+        <div id="online">🟢 Онлайн: загрузка...</div>
+        <div id="sleeping">💤 Спят: загрузка...</div>
+        <div id="joining">⚡ Заходят: загрузка...</div>
+    </div>
+
+    <h3>Статус сервера:</h3>
+    <div class="status-box">
+        <div id="server-status">Загрузка...</div>
+    </div>
+</div>
+
+<footer>
+    © 2025 Rust Server | Сделано с ❤️
+</footer>
+
+<script>
+async function updateOnline() {
+    try {
+        const res = await fetch("http://127.0.0.1:28082/api/playerlist?apikey=YOUR_API_KEY");
+        const data = await res.json();
+
+        const online = data.Players.filter(p => p.IsConnected && !p.IsSleeping);
+        const sleeping = data.Players.filter(p => p.IsSleeping);
+        const joining = data.Players.filter(p => !p.IsConnected && !p.IsSleeping);
+
+        document.getElementById("online").innerText = `🟢 Онлайн: ${online.length}`;
+        document.getElementById("sleeping").innerText = `💤 Спят: ${sleeping.length}`;
+        document.getElementById("joining").innerText = `⚡ Заходят: ${joining.length}`;
+    } catch (err) {
+        document.getElementById("online").innerText = "Ошибка загрузки данных";
+        document.getElementById("sleeping").innerText = "-";
+        document.getElementById("joining").innerText = "-";
+        console.error(err);
+    }
+}
+
+async function updateServerStatus() {
+    try {
+        const res = await fetch("http://127.0.0.1:28082/api/serverstatus?apikey=YOUR_API_KEY"); 
+        const data = await res.json();
+        let statusText = "❔ Неизвестно";
+
+        if(data.Status === "online") statusText = "🟢 Онлайн";
+        else if(data.Status === "offline") statusText = "🔴 Оффлайн";
+        else if(data.Status === "restart") statusText = "🔄 Рестарт";
+
+        document.getElementById("server-status").innerText = statusText;
+    } catch(err) {
+        document.getElementById("server-status").innerText = "Ошибка загрузки статуса";
+        console.error(err);
+    }
+}
+
+updateOnline();
+updateServerStatus();
+setInterval(updateOnline, 60000);
+setInterval(updateServerStatus, 60000);
+</script>
+</body>
+</html>

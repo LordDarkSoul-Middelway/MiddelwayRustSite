@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Соцсети | Rust Server</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Russo One', sans-serif;
+  background: url('rust-bg.jpg') center/cover no-repeat fixed;
+  color: #eaeaea;
+  text-shadow: 1px 1px 2px #000;
+}
+body::before {
+  content: "";
+  position: fixed;
+  top:0; left:0; right:0; bottom:0;
+  background: rgba(10,0,20,0.7);
+  z-index: -1;
+}
+
+/* ====== Универсальная шапка ====== */
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 10px;
+  background: linear-gradient(180deg, rgba(25,0,40,0.95), rgba(10,0,20,0.9));
+  border-bottom: 3px solid #b84cff;
+}
+header h1 { margin:0; color:#b84cff; font-size:2em; }
+
+nav {
+  margin-top:10px;
+  display: flex;
+  gap:10px;
+}
+
+.nav-link {
+  color: #ccc;
+  text-decoration:none;
+  font-weight:bold;
+  transition:0.3s;
+  padding:6px 4px;
+  border-radius:6px;
+  text-shadow:0 0 0px #000;
+  background: none; /* убрали розовый куб */
+}
+
+/* Glow при наведении */
+.nav-link:hover {
+  color: #ff4fd8;
+  text-shadow: 0 0 8px #ff4fd8, 0 0 18px rgba(184,76,255,0.35);
+  transform: translateY(-2px);
+}
+
+/* Glow для текущей страницы */
+.nav-link.active {
+  color: #ff4fd8;
+  text-shadow: 0 0 10px #ff4fd8, 0 0 22px rgba(184,76,255,0.45);
+  background: none;
+  box-shadow: none;
+}
+
+/* ====== Контент ====== */
+.content {
+  max-width:600px;
+  margin:60px auto;
+  background: rgba(15,0,25,0.85);
+  padding:40px;
+  border-radius:12px;
+  text-align:center;
+  border:1px solid rgba(184,76,255,0.3);
+}
+
+.social-button {
+  display:inline-block;
+  margin:10px;
+  padding:12px 25px;
+  background: rgba(25,0,40,0.85);
+  color: #fff;
+  text-decoration:none;
+  border-radius:8px;
+  box-shadow:0 0 10px rgba(184,76,255,0.5);
+  transition:0.3s;
+  font-weight:bold;
+}
+.social-button:hover {
+  background: #b84cff;
+  box-shadow:0 0 20px #ff4fd8;
+}
+
+/* ====== Подвал ====== */
+footer {
+  text-align:center;
+  padding:25px;
+  background: rgba(15,0,25,0.9);
+  color:#aaa;
+  border-top:2px solid rgba(184,76,255,0.3);
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Rust Server</h1>
+  <nav>
+    <a href="index.html" class="nav-link">Главная</a>
+    <a href="news.html" class="nav-link">Новости</a>
+    <a href="rules.html" class="nav-link">Правила</a>
+    <a href="donate.html" class="nav-link">Донат</a>
+    <a href="social.html" class="nav-link active">Соцсети</a>
+  </nav>
+</header>
+
+<div class="content">
+  <h2>Наши социальные сети</h2>
+  <p>Подписывайся и следи за обновлениями сервера!</p>
+  <a href="https://discord.gg/yourserver" target="_blank" class="social-button">Discord</a>
+  <a href="https://t.me/yourserver" target="_blank" class="social-button">Telegram</a>
+</div>
+
+<footer>
+© 2025 Rust Server | Сделано с ❤️
+</footer>
+
+<script>
+// Авто-подсветка текущей страницы
+document.addEventListener('DOMContentLoaded', () => {
+  const links = document.querySelectorAll('.nav-link');
+  let current = window.location.pathname.split("/").pop();
+  if (!current) current = 'index.html';
+  links.forEach(link => {
+    const href = link.getAttribute('href').split('/').pop();
+    if(href === current){
+      link.classList.add('active');
+    }
+  });
+});
+</script>
+</body>
+</html>

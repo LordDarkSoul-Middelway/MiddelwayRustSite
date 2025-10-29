@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Новости | Rust Server</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Russo One', sans-serif;
+  background: url('rust-bg.jpg') center/cover no-repeat fixed;
+  color: #eaeaea;
+  text-shadow: 1px 1px 2px #000;
+}
+body::before {
+  content: "";
+  position: fixed;
+  top:0; left:0; right:0; bottom:0;
+  background: rgba(10,0,20,0.7);
+  z-index: -1;
+}
+
+/* Шапка */
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 10px;
+  background: linear-gradient(180deg, rgba(25,0,40,0.95), rgba(10,0,20,0.9));
+  border-bottom: 3px solid #b84cff;
+}
+header h1 { margin:0; color:#b84cff; font-size:2em; }
+nav {
+  margin-top:10px;
+  display: flex;
+  gap:10px;
+}
+.nav-link {
+  color: #ccc;
+  text-decoration:none;
+  font-weight:bold;
+  transition:0.3s;
+  padding:6px 12px;
+  border-radius:6px;
+}
+.nav-link.active,
+.nav-link:hover {
+  color: #ff4fd8;
+  text-shadow: 0 0 12px #ff4fd8, 0 0 25px rgba(184,76,255,0.6);
+  background: none;
+}
+
+/* Контент */
+.content {
+  max-width:700px;
+  margin:60px auto;
+  background: rgba(15,0,25,0.85);
+  padding:40px;
+  border-radius:12px;
+  text-align:center;
+  border:1px solid rgba(184,76,255,0.3);
+  box-shadow:0 0 25px rgba(184,76,255,0.2);
+}
+
+/* Ивенты */
+.event {
+  background: rgba(15,0,25,0.85);
+  padding: 15px;
+  margin: 15px 0;
+  border-left: 4px solid #b84cff;
+  border-radius: 8px;
+  box-shadow:0 0 10px rgba(184,76,255,0.3);
+  transition:0.3s;
+}
+.event:hover {
+  box-shadow:0 0 20px #ff4fd8;
+}
+.event p { margin:5px 0; }
+.timer {
+  font-weight: bold;
+  color: #ff4fd8;
+  text-shadow: 0 0 8px #ff4fd8;
+}
+
+/* Кнопка Discord */
+.button {
+  display: inline-block;
+  padding: 12px 25px;
+  background: #b84cff;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  margin-top: 15px;
+  box-shadow:0 0 15px rgba(184,76,255,0.5);
+  transition: 0.3s;
+}
+.button:hover {
+  background: #ff4fd8;
+  box-shadow:0 0 25px rgba(255,79,216,0.7);
+}
+
+/* Подвал */
+footer {
+  text-align:center;
+  padding:25px;
+  background: rgba(15,0,25,0.9);
+  color:#aaa;
+  border-top:2px solid rgba(184,76,255,0.3);
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Rust Server</h1>
+  <nav>
+    <a href="index.html" class="nav-link">Главная</a>
+    <a href="news.html" class="nav-link active">Новости</a>
+    <a href="rules.html" class="nav-link">Правила</a>
+    <a href="donate.html" class="nav-link">Донат</a>
+    <a href="social.html" class="nav-link">Соцсети</a>
+  </nav>
+</header>
+
+<div class="content">
+<h2>Новости сервера</h2>
+<p>🔥 Все свежие события Rust Server:</p>
+<ul>
+  <li>01.11.2025 — Новые ивенты и награды за PvP!</li>
+  <li>28.10.2025 — Обновление карты и улучшенные постройки</li>
+  <li>25.10.2025 — Новый магазин доната с эксклюзивными скинами</li>
+</ul>
+
+<h3>Текущие эвенты</h3>
+<div id="events">
+  <div class="event">
+    <strong>💰 Скидка на донат</strong>
+    <p>Начало: 29.10.2025 00:00 | Конец: 30.10.2025 00:00</p>
+    <p>Осталось: <span class="timer" data-end="2025-10-30T00:00:00">Loading...</span></p>
+  </div>
+</div>
+
+<a class="button" href="discord.html">Обсудить новости в Discord</a>
+</div>
+
+<footer>
+© 2025 Rust Server | Сделано с ❤️
+</footer>
+
+<script>
+// Таймер ивентов
+function updateTimers() {
+  const timers = document.querySelectorAll('.timer');
+  const now = new Date();
+  timers.forEach(timer => {
+    const end = new Date(timer.getAttribute('data-end'));
+    let diff = end - now;
+    if(diff <= 0){
+      timer.textContent = "Ивент завершён";
+      return;
+    }
+    const h = Math.floor(diff / 1000 / 60 / 60);
+    const m = Math.floor((diff / 1000 / 60) % 60);
+    const s = Math.floor((diff / 1000) % 60);
+    timer.textContent = `${h}ч ${m}м ${s}с`;
+  });
+}
+setInterval(updateTimers, 1000);
+updateTimers();
+</script>
+</body>
+</html>

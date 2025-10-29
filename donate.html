@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Донат | Rust Server</title>
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
+  :root {
+      --main-color: #b84cff;
+      --accent-color: #ff4fd8;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Russo One', sans-serif;
+    background: url('rust-bg.jpg') center/cover no-repeat fixed;
+    color: #eaeaea;
+    text-shadow: 1px 1px 2px #000;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(10,0,20,0.7);
+    z-index: -1;
+  }
+
+  /* ====== Шапка ====== */
+  header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 10px;
+    background: linear-gradient(180deg, rgba(25,0,40,0.95), rgba(10,0,20,0.9));
+    border-bottom: 3px solid var(--main-color);
+  }
+  header h1 { margin:0; color:var(--main-color); font-size:2em; }
+
+  nav {
+    margin-top:10px;
+    display: flex;
+    gap:10px;
+  }
+
+  .nav-link {
+    color: #ccc;
+    text-decoration:none;
+    font-weight:bold;
+    transition:0.3s;
+    padding:6px 4px;
+    border-radius:6px;
+    text-shadow:0 0 0px #000;
+  }
+
+  .nav-link:hover {
+    color: var(--accent-color);
+    text-shadow: 0 0 8px var(--accent-color), 0 0 18px rgba(184,76,255,0.35);
+    transform: translateY(-2px);
+  }
+
+  /* Glow для активной страницы без куба */
+  .nav-link.active {
+    color: var(--accent-color);
+    text-shadow: 0 0 10px var(--accent-color), 0 0 22px rgba(184,76,255,0.45);
+    background: none;
+    box-shadow: none;
+  }
+
+  /* ====== Контент ====== */
+  .content {
+    max-width:600px;
+    margin:60px auto;
+    background: rgba(15,0,25,0.85);
+    padding:40px;
+    border-radius:12px;
+    text-align:center;
+    border:1px solid rgba(184,76,255,0.3);
+  }
+
+  .button {
+    display: inline-block;
+    padding: 12px 25px;
+    background: var(--accent-color);
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 1.1em;
+    box-shadow: 0 0 15px rgba(255,79,216,0.5);
+  }
+
+  .button:hover {
+    background: var(--main-color);
+    box-shadow: 0 0 25px rgba(184,76,255,0.7);
+  }
+
+  /* ====== Подвал ====== */
+  footer {
+    text-align:center;
+    padding:25px;
+    background: rgba(15,0,25,0.9);
+    color:#aaa;
+    border-top:2px solid rgba(184,76,255,0.3);
+  }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Rust Server</h1>
+  <nav>
+    <a href="index.html" class="nav-link">Главная</a>
+    <a href="news.html" class="nav-link">Новости</a>
+    <a href="rules.html" class="nav-link">Правила</a>
+    <a href="donate.html" class="nav-link active">Донат</a>
+    <a href="social.html" class="nav-link">Соцсети</a>
+  </nav>
+</header>
+
+<div class="content">
+  <h2>VIP и донат</h2>
+  <p>💎 Поддержи сервер и получи бонусы:</p>
+  <ul>
+    <li>VIP-пакет: уникальные скины и быстрый старт</li>
+    <li>Премиум: больше слотов на сервере и эксклюзивные предметы</li>
+    <li>Мажор: полный набор бонусов</li>
+  </ul>
+
+  <a class="button" href="https://middelwayrust.gamestores.app" target="_blank">
+    Перейти к донату 💰
+  </a>
+</div>
+
+<footer>
+  © 2025 Rust Server | Сделано с ❤️
+</footer>
+</body>
+</html>
