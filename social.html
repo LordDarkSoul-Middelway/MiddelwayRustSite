@@ -7,6 +7,11 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
 
+:root {
+  --main-color: #b84cff;
+  --accent-color: #ff4fd8;
+}
+
 body {
   margin: 0;
   font-family: 'Russo One', sans-serif;
@@ -22,16 +27,17 @@ body::before {
   z-index: -1;
 }
 
-/* ====== Универсальная шапка ====== */
+/* ====== Шапка ====== */
 header {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px 10px;
   background: linear-gradient(180deg, rgba(25,0,40,0.95), rgba(10,0,20,0.9));
-  border-bottom: 3px solid #b84cff;
+  border-bottom: 3px solid var(--main-color);
 }
-header h1 { margin:0; color:#b84cff; font-size:2em; }
+header h1 { margin:0; color:var(--main-color); font-size:2em; }
 
 nav {
   margin-top:10px;
@@ -47,22 +53,42 @@ nav {
   padding:6px 4px;
   border-radius:6px;
   text-shadow:0 0 0px #000;
-  background: none; /* убрали розовый куб */
+  background: none;
 }
 
-/* Glow при наведении */
 .nav-link:hover {
-  color: #ff4fd8;
-  text-shadow: 0 0 8px #ff4fd8, 0 0 18px rgba(184,76,255,0.35);
+  color: var(--accent-color);
+  text-shadow: 0 0 8px var(--accent-color), 0 0 18px rgba(184,76,255,0.35);
   transform: translateY(-2px);
 }
 
-/* Glow для текущей страницы */
 .nav-link.active {
-  color: #ff4fd8;
-  text-shadow: 0 0 10px #ff4fd8, 0 0 22px rgba(184,76,255,0.45);
+  color: var(--accent-color);
+  text-shadow: 0 0 10px var(--accent-color), 0 0 22px rgba(184,76,255,0.45);
   background: none;
   box-shadow: none;
+}
+
+/* ====== Переключатель языка ====== */
+.language-switch {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+}
+.language-switch button {
+  background: var(--main-color);
+  border: none;
+  color: white;
+  font-weight: bold;
+  padding: 6px 12px;
+  margin-left: 5px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.language-switch button:hover {
+  background: var(--accent-color);
+  box-shadow: 0 0 10px var(--accent-color);
 }
 
 /* ====== Контент ====== */
@@ -89,8 +115,8 @@ nav {
   font-weight:bold;
 }
 .social-button:hover {
-  background: #b84cff;
-  box-shadow:0 0 20px #ff4fd8;
+  background: var(--main-color);
+  box-shadow:0 0 20px var(--accent-color);
 }
 
 /* ====== Подвал ====== */
@@ -105,28 +131,74 @@ footer {
 </head>
 <body>
 <header>
-  <h1>Rust Server</h1>
+  <h1 id="title">Rust Server</h1>
+  <div class="language-switch">
+    <button onclick="setLanguage('ru')">RU</button>
+    <button onclick="setLanguage('en')">EN</button>
+  </div>
   <nav>
-    <a href="index.html" class="nav-link">Главная</a>
-    <a href="news.html" class="nav-link">Новости</a>
-    <a href="rules.html" class="nav-link">Правила</a>
-    <a href="donate.html" class="nav-link">Донат</a>
-    <a href="social.html" class="nav-link active">Соцсети</a>
+    <a href="index.html" class="nav-link" id="nav-home">Главная</a>
+    <a href="news.html" class="nav-link" id="nav-news">Новости</a>
+    <a href="rules.html" class="nav-link" id="nav-rules">Правила</a>
+    <a href="donate.html" class="nav-link" id="nav-donate">Донат</a>
+    <a href="social.html" class="nav-link active" id="nav-social">Соцсети</a>
   </nav>
 </header>
 
 <div class="content">
-  <h2>Наши социальные сети</h2>
-  <p>Подписывайся и следи за обновлениями сервера!</p>
-  <a href="https://discord.gg/yourserver" target="_blank" class="social-button">Discord</a>
-  <a href="https://t.me/yourserver" target="_blank" class="social-button">Telegram</a>
+  <h2 id="social-title">Наши социальные сети</h2>
+  <p id="social-desc">Подписывайся и следи за обновлениями сервера!</p>
+  <a href="https://discord.gg/yourserver" target="_blank" class="social-button" id="btn-discord">Discord</a>
+  <a href="https://t.me/yourserver" target="_blank" class="social-button" id="btn-telegram">Telegram</a>
 </div>
 
 <footer>
-© 2025 Rust Server | Сделано с ❤️
+  <span id="footer-text">© 2025 Rust Server | Сделано с ❤️</span>
 </footer>
 
 <script>
+const translations = {
+  ru: {
+    title: "Rust Server",
+    "nav-home": "Главная",
+    "nav-news": "Новости",
+    "nav-rules": "Правила",
+    "nav-donate": "Донат",
+    "nav-social": "Соцсети",
+    "social-title": "Наши социальные сети",
+    "social-desc": "Подписывайся и следи за обновлениями сервера!",
+    "btn-discord": "Discord",
+    "btn-telegram": "Telegram",
+    "footer-text": "© 2025 Rust Server | Сделано с ❤️"
+  },
+  en: {
+    title: "Rust Server",
+    "nav-home": "Home",
+    "nav-news": "News",
+    "nav-rules": "Rules",
+    "nav-donate": "Donate",
+    "nav-social": "Socials",
+    "social-title": "Our Socials",
+    "social-desc": "Follow us and stay updated on server news!",
+    "btn-discord": "Discord",
+    "btn-telegram": "Telegram",
+    "footer-text": "© 2025 Rust Server | Made with ❤️"
+  }
+};
+
+function setLanguage(lang) {
+  localStorage.setItem("lang", lang);
+  for (const id in translations[lang]) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = translations[lang][id];
+  }
+}
+
+window.onload = () => {
+  const lang = localStorage.getItem("lang") || "ru";
+  setLanguage(lang);
+};
+
 // Авто-подсветка текущей страницы
 document.addEventListener('DOMContentLoaded', () => {
   const links = document.querySelectorAll('.nav-link');

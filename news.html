@@ -24,19 +24,29 @@ body::before {
 
 /* Шапка */
 header {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 10px;
   background: linear-gradient(180deg, rgba(25,0,40,0.95), rgba(10,0,20,0.9));
   border-bottom: 3px solid #b84cff;
+  padding: 20px 0;
 }
-header h1 { margin:0; color:#b84cff; font-size:2em; }
+header h1 {
+  margin: 0;
+  color:#b84cff;
+  font-size:2em;
+  text-align: center;
+  text-shadow: 0 0 15px rgba(184,76,255,0.7);
+}
+
+/* Навигация */
 nav {
   margin-top:10px;
   display: flex;
   gap:10px;
 }
+
 .nav-link {
   color: #ccc;
   text-decoration:none;
@@ -50,6 +60,31 @@ nav {
   color: #ff4fd8;
   text-shadow: 0 0 12px #ff4fd8, 0 0 25px rgba(184,76,255,0.6);
   background: none;
+}
+
+/* Переключатель языков */
+.lang-switch {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+}
+.lang-btn {
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 6px;
+  color: #ccc;
+  border: 1px solid rgba(184,76,255,0.4);
+  background: rgba(15,0,25,0.6);
+  font-size: 0.9em;
+  transition: 0.3s;
+}
+.lang-btn:hover,
+.lang-btn.active {
+  color: #ff4fd8;
+  text-shadow: 0 0 8px #ff4fd8;
+  border-color: #ff4fd8;
 }
 
 /* Контент */
@@ -114,6 +149,10 @@ footer {
 <body>
 <header>
   <h1>Rust Server</h1>
+  <div class="lang-switch">
+    <div class="lang-btn" data-lang="ru">RU</div>
+    <div class="lang-btn" data-lang="en">EN</div>
+  </div>
   <nav>
     <a href="index.html" class="nav-link">Главная</a>
     <a href="news.html" class="nav-link active">Новости</a>
@@ -123,25 +162,8 @@ footer {
   </nav>
 </header>
 
-<div class="content">
-<h2>Новости сервера</h2>
-<p>🔥 Все свежие события Rust Server:</p>
-<ul>
-  <li>01.11.2025 — Новые ивенты и награды за PvP!</li>
-  <li>28.10.2025 — Обновление карты и улучшенные постройки</li>
-  <li>25.10.2025 — Новый магазин доната с эксклюзивными скинами</li>
-</ul>
-
-<h3>Текущие эвенты</h3>
-<div id="events">
-  <div class="event">
-    <strong>💰 Скидка на донат</strong>
-    <p>Начало: 29.10.2025 00:00 | Конец: 30.10.2025 00:00</p>
-    <p>Осталось: <span class="timer" data-end="2025-10-30T00:00:00">Loading...</span></p>
-  </div>
-</div>
-
-<a class="button" href="discord.html">Обсудить новости в Discord</a>
+<div class="content" id="newsContent">
+  <!-- Контент заполняется через JS -->
 </div>
 
 <footer>
@@ -149,25 +171,75 @@ footer {
 </footer>
 
 <script>
-// Таймер ивентов
-function updateTimers() {
-  const timers = document.querySelectorAll('.timer');
-  const now = new Date();
-  timers.forEach(timer => {
-    const end = new Date(timer.getAttribute('data-end'));
-    let diff = end - now;
-    if(diff <= 0){
-      timer.textContent = "Ивент завершён";
-      return;
-    }
-    const h = Math.floor(diff / 1000 / 60 / 60);
-    const m = Math.floor((diff / 1000 / 60) % 60);
-    const s = Math.floor((diff / 1000) % 60);
-    timer.textContent = `${h}ч ${m}м ${s}с`;
+const langData = {
+  ru: {
+    title: "Новости сервера",
+    intro: "🔥 Все свежие события Rust Server:",
+    events: [
+      {date:"01.11.2025", desc:"Новые ивенты и награды за PvP!", end:"2025-11-01T23:59:59"},
+      {date:"28.10.2025", desc:"Обновление карты и улучшенные постройки", end:"2025-10-28T23:59:59"},
+      {date:"25.10.2025", desc:"Новый магазин доната с эксклюзивными скинами", end:"2025-10-25T23:59:59"}
+    ],
+    discord: "Обсудить новости в Discord"
+  },
+  en: {
+    title: "Server News",
+    intro: "🔥 All latest Rust Server events:",
+    events: [
+      {date:"01.11.2025", desc:"New PvP events and rewards!", end:"2025-11-01T23:59:59"},
+      {date:"28.10.2025", desc:"Map update and improved buildings", end:"2025-10-28T23:59:59"},
+      {date:"25.10.2025", desc:"New donation shop with exclusive skins", end:"2025-10-25T23:59:59"}
+    ],
+    discord: "Discuss news on Discord"
+  }
+};
+
+function renderContent(lang){
+  const content = document.getElementById('newsContent');
+  const data = langData[lang];
+  let html = `<h2>${data.title}</h2><p>${data.intro}</p><ul>`;
+  data.events.forEach(e=>{
+    html += `<li>${e.date} — ${e.desc}</li>`;
   });
+  html += `</ul><h3>Текущие эвенты</h3><div id="events">`;
+  data.events.forEach(e=>{
+    html += `<div class="event"><strong>${e.desc}</strong><p>Дата: ${e.date}</p>`;
+    html += `<p>Осталось: <span class="timer" data-end="${e.end}">Loading...</span></p></div>`;
+  });
+  html += `</div><a class="button" href="discord.html">${data.discord}</a>`;
+  content.innerHTML = html;
+
+  // Таймеры
+  function updateTimers() {
+    const timers = document.querySelectorAll('.timer');
+    const now = new Date();
+    timers.forEach(timer => {
+      const end = new Date(timer.getAttribute('data-end'));
+      let diff = end - now;
+      if(diff <= 0){
+        timer.textContent = lang === 'ru' ? "Ивент завершён" : "Event ended";
+        return;
+      }
+      const h = Math.floor(diff / 1000 / 60 / 60);
+      const m = Math.floor((diff / 1000 / 60) % 60);
+      const s = Math.floor((diff / 1000) % 60);
+      timer.textContent = `${h}ч ${m}м ${s}с`;
+    });
+  }
+  setInterval(updateTimers, 1000);
+  updateTimers();
 }
-setInterval(updateTimers, 1000);
-updateTimers();
+
+// Язык по умолчанию
+let currentLang = localStorage.getItem('siteLang') || 'ru';
+renderContent(currentLang);
+document.querySelectorAll('.lang-btn').forEach(btn=>{
+  if(btn.dataset.lang===currentLang) btn.classList.add('active');
+  btn.addEventListener('click', ()=>{
+    localStorage.setItem('siteLang', btn.dataset.lang);
+    location.reload();
+  });
+});
 </script>
 </body>
 </html>

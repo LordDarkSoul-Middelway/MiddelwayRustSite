@@ -14,7 +14,6 @@ body {
   color: #eaeaea;
   text-shadow: 1px 1px 2px #000;
 }
-
 body::before {
   content: "";
   position: fixed;
@@ -25,15 +24,24 @@ body::before {
 
 /* Шапка */
 header {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 10px;
   background: linear-gradient(180deg, rgba(25,0,40,0.95), rgba(10,0,20,0.9));
   border-bottom: 3px solid #b84cff;
+  padding: 20px 0;
 }
-header h1 { margin:0; color:#b84cff; font-size:2em; }
 
+header h1 {
+  margin: 0;
+  color:#b84cff;
+  font-size:2em;
+  text-align: center;
+  text-shadow: 0 0 15px rgba(184,76,255,0.7);
+}
+
+/* Навигация */
 nav {
   margin-top:10px;
   display: flex;
@@ -53,7 +61,32 @@ nav {
 .nav-link:hover {
   color: #ff4fd8;
   text-shadow: 0 0 12px #ff4fd8, 0 0 25px rgba(184,76,255,0.6);
-  background: none; /* без розового */
+  background: none;
+}
+
+/* Переключатель языков */
+.lang-switch {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+}
+.lang-btn {
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 6px;
+  color: #ccc;
+  border: 1px solid rgba(184,76,255,0.4);
+  background: rgba(15,0,25,0.6);
+  font-size: 0.9em;
+  transition: 0.3s;
+}
+.lang-btn:hover,
+.lang-btn.active {
+  color: #ff4fd8;
+  text-shadow: 0 0 8px #ff4fd8;
+  border-color: #ff4fd8;
 }
 
 /* Контент */
@@ -70,7 +103,7 @@ nav {
 
 /* Аккордеон */
 .accordion {
-  background: rgba(15,0,25,0.85); /* тёмный */
+  background: rgba(15,0,25,0.85);
   color: #eaeaea;
   cursor: pointer;
   padding: 15px;
@@ -134,6 +167,10 @@ footer {
 <body>
 <header>
   <h1>Rust Server</h1>
+  <div class="lang-switch">
+    <div class="lang-btn" data-lang="ru">RU</div>
+    <div class="lang-btn" data-lang="en">EN</div>
+  </div>
   <nav>
     <a href="index.html" class="nav-link">Главная</a>
     <a href="news.html" class="nav-link">Новости</a>
@@ -143,41 +180,8 @@ footer {
   </nav>
 </header>
 
-<div class="content">
-<h2>Правила сервера</h2>
-
-<button class="accordion">⚔ PvP и рейды</button>
-<div class="panel">
-  <ul>
-    <li>❌ Грифинг без PvP запрещён</li>
-    <li>✅ Защищайте свои базы честно</li>
-  </ul>
-</div>
-
-<button class="accordion">🛠 Читерство и баги</button>
-<div class="panel">
-  <ul>
-    <li>❌ Запрещены читы, эксплойты и баги</li>
-    <li>✅ Сообщайте о найденных багах администрации</li>
-  </ul>
-</div>
-
-<button class="accordion">💬 Общение</button>
-<div class="panel">
-  <ul>
-    <li>❌ Оскорбления игроков и администрации запрещены</li>
-    <li>✅ Уважайте других и помогайте новичкам</li>
-  </ul>
-</div>
-
-<button class="accordion">📢 Новости и события</button>
-<div class="panel">
-  <ul>
-    <li>✅ Следите за событиями и обновлениями в Discord</li>
-  </ul>
-</div>
-
-<a class="button" href="discord.html">Обсудить правила в Discord</a>
+<div class="content" id="rulesContent">
+  <!-- Контент заполняется через JS -->
 </div>
 
 <footer>
@@ -185,19 +189,61 @@ footer {
 </footer>
 
 <script>
-// Скрипт аккордеона
-const acc = document.getElementsByClassName("accordion");
-for (let i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    const panel = this.nextElementSibling;
-    if(panel.style.maxHeight){
-      panel.style.maxHeight = null;
-    } else {
-      panel.style.maxHeight = panel.scrollHeight + "px";
-    }
+const langData = {
+  ru: {
+    title: "Правила сервера",
+    sections: [
+      { title: "⚔ PvP и рейды", rules: ["❌ Грифинг без PvP запрещён", "✅ Защищайте свои базы честно"] },
+      { title: "🛠 Читерство и баги", rules: ["❌ Запрещены читы, эксплойты и баги", "✅ Сообщайте о найденных багах администрации"] },
+      { title: "💬 Общение", rules: ["❌ Оскорбления игроков и администрации запрещены", "✅ Уважайте других и помогайте новичкам"] },
+      { title: "📢 Новости и события", rules: ["✅ Следите за событиями и обновлениями в Discord"] }
+    ],
+    discord: "Обсудить правила в Discord"
+  },
+  en: {
+    title: "Server Rules",
+    sections: [
+      { title: "⚔ PvP & Raids", rules: ["❌ Griefing without PvP is forbidden", "✅ Defend your base fairly"] },
+      { title: "🛠 Cheating & Bugs", rules: ["❌ Cheats, exploits and bug abuse are prohibited", "✅ Report any bugs to the admin team"] },
+      { title: "💬 Communication", rules: ["❌ Insults towards players or admins are not allowed", "✅ Respect others and help newcomers"] },
+      { title: "📢 News & Events", rules: ["✅ Follow updates and events on Discord"] }
+    ],
+    discord: "Discuss the rules on Discord"
+  }
+};
+
+function renderContent(lang) {
+  const content = document.getElementById('rulesContent');
+  const data = langData[lang];
+  let html = `<h2>${data.title}</h2>`;
+  data.sections.forEach(section => {
+    html += `<button class="accordion">${section.title}</button><div class="panel"><ul>${section.rules.map(r => `<li>${r}</li>`).join('')}</ul></div>`;
   });
+  html += `<a class="button" href="discord.html">${data.discord}</a>`;
+  content.innerHTML = html;
+
+  // Аккордеоны заново активируем
+  const acc = document.getElementsByClassName("accordion");
+  for (let i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      const panel = this.nextElementSibling;
+      if (panel.style.maxHeight) panel.style.maxHeight = null;
+      else panel.style.maxHeight = panel.scrollHeight + "px";
+    });
+  }
 }
+
+// Язык по умолчанию
+let currentLang = localStorage.getItem('siteLang') || 'ru';
+renderContent(currentLang);
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  if (btn.dataset.lang === currentLang) btn.classList.add('active');
+  btn.addEventListener('click', () => {
+    localStorage.setItem('siteLang', btn.dataset.lang);
+    location.reload();
+  });
+});
 </script>
 </body>
 </html>

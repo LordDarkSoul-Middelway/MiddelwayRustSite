@@ -30,43 +30,71 @@
 
   /* ====== Шапка ====== */
   header {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px 10px;
     background: linear-gradient(180deg, rgba(25,0,40,0.95), rgba(10,0,20,0.9));
     border-bottom: 3px solid var(--main-color);
+    padding: 20px 0;
   }
-  header h1 { margin:0; color:var(--main-color); font-size:2em; }
+  header h1 {
+    margin:0;
+    color:var(--main-color);
+    font-size:2em;
+    text-align:center;
+    text-shadow: 0 0 15px rgba(184,76,255,0.7);
+  }
 
+  /* Навигация */
   nav {
     margin-top:10px;
     display: flex;
     gap:10px;
   }
-
   .nav-link {
     color: #ccc;
     text-decoration:none;
     font-weight:bold;
     transition:0.3s;
-    padding:6px 4px;
+    padding:6px 12px;
     border-radius:6px;
-    text-shadow:0 0 0px #000;
   }
-
   .nav-link:hover {
     color: var(--accent-color);
     text-shadow: 0 0 8px var(--accent-color), 0 0 18px rgba(184,76,255,0.35);
     transform: translateY(-2px);
   }
-
-  /* Glow для активной страницы без куба */
   .nav-link.active {
     color: var(--accent-color);
     text-shadow: 0 0 10px var(--accent-color), 0 0 22px rgba(184,76,255,0.45);
     background: none;
     box-shadow: none;
+  }
+
+  /* Переключатель языков */
+  .lang-switch {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 8px;
+  }
+  .lang-btn {
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 6px;
+    color: #ccc;
+    border: 1px solid rgba(184,76,255,0.4);
+    background: rgba(15,0,25,0.6);
+    font-size: 0.9em;
+    transition: 0.3s;
+  }
+  .lang-btn:hover,
+  .lang-btn.active {
+    color: var(--accent-color);
+    text-shadow: 0 0 8px var(--accent-color);
+    border-color: var(--accent-color);
   }
 
   /* ====== Контент ====== */
@@ -79,7 +107,6 @@
     text-align:center;
     border:1px solid rgba(184,76,255,0.3);
   }
-
   .button {
     display: inline-block;
     padding: 12px 25px;
@@ -91,7 +118,6 @@
     font-size: 1.1em;
     box-shadow: 0 0 15px rgba(255,79,216,0.5);
   }
-
   .button:hover {
     background: var(--main-color);
     box-shadow: 0 0 25px rgba(184,76,255,0.7);
@@ -110,6 +136,10 @@
 <body>
 <header>
   <h1>Rust Server</h1>
+  <div class="lang-switch">
+    <div class="lang-btn" data-lang="ru">RU</div>
+    <div class="lang-btn" data-lang="en">EN</div>
+  </div>
   <nav>
     <a href="index.html" class="nav-link">Главная</a>
     <a href="news.html" class="nav-link">Новости</a>
@@ -119,22 +149,58 @@
   </nav>
 </header>
 
-<div class="content">
-  <h2>VIP и донат</h2>
-  <p>💎 Поддержи сервер и получи бонусы:</p>
-  <ul>
-    <li>VIP-пакет: уникальные скины и быстрый старт</li>
-    <li>Премиум: больше слотов на сервере и эксклюзивные предметы</li>
-    <li>Мажор: полный набор бонусов</li>
-  </ul>
-
-  <a class="button" href="https://middelwayrust.gamestores.app" target="_blank">
-    Перейти к донату 💰
-  </a>
+<div class="content" id="donateContent">
+  <!-- Контент через JS -->
 </div>
 
 <footer>
   © 2025 Rust Server | Сделано с ❤️
 </footer>
+
+<script>
+const langData = {
+  ru: {
+    title: "VIP и донат",
+    intro: "💎 Поддержи сервер и получи бонусы:",
+    items: [
+      "VIP-пакет: уникальные скины и быстрый старт",
+      "Премиум: больше слотов на сервере и эксклюзивные предметы",
+      "Мажор: полный набор бонусов"
+    ],
+    button: "Перейти к донату 💰"
+  },
+  en: {
+    title: "VIP & Donate",
+    intro: "💎 Support the server and get bonuses:",
+    items: [
+      "VIP: unique skins and fast start",
+      "Premium: more server slots and exclusive items",
+      "Major: full bonus package"
+    ],
+    button: "Go to Donate 💰"
+  }
+};
+
+function renderContent(lang){
+  const content = document.getElementById('donateContent');
+  const data = langData[lang];
+  let html = `<h2>${data.title}</h2><p>${data.intro}</p><ul>`;
+  data.items.forEach(i => html += `<li>${i}</li>`);
+  html += `</ul><a class="button" href="https://middelwayrust.gamestores.app" target="_blank">${data.button}</a>`;
+  content.innerHTML = html;
+}
+
+// Язык по умолчанию
+let currentLang = localStorage.getItem('siteLang') || 'ru';
+renderContent(currentLang);
+
+document.querySelectorAll('.lang-btn').forEach(btn=>{
+  if(btn.dataset.lang===currentLang) btn.classList.add('active');
+  btn.addEventListener('click', ()=>{
+    localStorage.setItem('siteLang', btn.dataset.lang);
+    location.reload();
+  });
+});
+</script>
 </body>
 </html>

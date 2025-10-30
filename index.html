@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MiddelWay | Главная</title>
+<title>Rust Server | Главная</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
 
@@ -33,6 +33,7 @@ header {
     text-align: center;
     border-bottom: 3px solid var(--main-color);
     box-shadow: 0 0 25px rgba(184,76,255,0.3);
+    position: relative;
 }
 header h1 { margin:0; color: var(--main-color); letter-spacing:3px; font-size:2.4em; text-shadow:0 0 15px rgba(184,76,255,0.7); }
 nav a {
@@ -45,6 +46,27 @@ nav a {
 nav a:hover, nav a.active {
     color: var(--accent-color);
     text-shadow: 0 0 8px var(--accent-color);
+}
+
+/* Переключатель языка */
+.lang-switch {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+}
+.lang-switch button {
+    background: rgba(25,0,40,0.8);
+    border: 1px solid var(--main-color);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
+}
+.lang-switch button:hover {
+    background: var(--main-color);
+    box-shadow: 0 0 10px var(--accent-color);
 }
 
 /* Контент */
@@ -88,7 +110,7 @@ nav a:hover, nav a.active {
     text-shadow:0 0 8px var(--accent-color);
 }
 
-/* Исправленный футер */
+/* Футер */
 footer {
     width: 100%;
     text-align: center;
@@ -102,81 +124,86 @@ footer {
 </head>
 <body>
 <header>
-    <h1>Rust Server</h1>
+    <h1 id="title">Rust Server</h1>
     <nav>
-        <a href="index.html" class="active">Главная</a>
-        <a href="news.html">Новости</a>
-        <a href="rules.html">Правила</a>
-        <a href="donate.html">Донат</a>
-        <a href="social.html">Соцсети</a>
+        <a href="index.html" class="active" data-lang-ru="Главная" data-lang-en="Home">Главная</a>
+        <a href="news.html" data-lang-ru="Новости" data-lang-en="News">Новости</a>
+        <a href="rules.html" data-lang-ru="Правила" data-lang-en="Rules">Правила</a>
+        <a href="donate.html" data-lang-ru="Донат" data-lang-en="Donate">Донат</a>
+        <a href="social.html" data-lang-ru="Соцсети" data-lang-en="Socials">Соцсети</a>
     </nav>
+    <div class="lang-switch">
+        <button id="lang-ru">RU</button>
+        <button id="lang-en">EN</button>
+    </div>
 </header>
 
 <div class="content">
-    <h2>Добро пожаловать на Rust Server!</h2>
-    <p>У нас честная игра, активная администрация и постоянные эвенты. Присоединяйся прямо сейчас!</p>
-    <a class="button" href="steam://connect/127.0.0.1:28015">Подключиться к серверу</a>
+    <h2 id="welcome">Добро пожаловать на Rust Server!</h2>
+    <p id="description">У нас честная игра, активная администрация и постоянные эвенты. Присоединяйся прямо сейчас!</p>
+    <a class="button" href="steam://connect/127.0.0.1:28015" id="connect">Подключиться к серверу</a>
 
-    <h3>Онлайн игроков:</h3>
+    <h3 id="online-title">Онлайн игроков:</h3>
     <div class="online-box">
         <div id="online">🟢 Онлайн: загрузка...</div>
         <div id="sleeping">💤 Спят: загрузка...</div>
         <div id="joining">⚡ Заходят: загрузка...</div>
     </div>
 
-    <h3>Статус сервера:</h3>
+    <h3 id="status-title">Статус сервера:</h3>
     <div class="status-box">
         <div id="server-status">Загрузка...</div>
     </div>
 </div>
 
-<footer>
+<footer id="footer">
     © 2025 Rust Server | Сделано с ❤️
 </footer>
 
 <script>
-async function updateOnline() {
-    try {
-        const res = await fetch("http://127.0.0.1:28082/api/playerlist?apikey=YOUR_API_KEY");
-        const data = await res.json();
-
-        const online = data.Players.filter(p => p.IsConnected && !p.IsSleeping);
-        const sleeping = data.Players.filter(p => p.IsSleeping);
-        const joining = data.Players.filter(p => !p.IsConnected && !p.IsSleeping);
-
-        document.getElementById("online").innerText = `🟢 Онлайн: ${online.length}`;
-        document.getElementById("sleeping").innerText = `💤 Спят: ${sleeping.length}`;
-        document.getElementById("joining").innerText = `⚡ Заходят: ${joining.length}`;
-    } catch (err) {
-        document.getElementById("online").innerText = "Ошибка загрузки данных";
-        document.getElementById("sleeping").innerText = "-";
-        document.getElementById("joining").innerText = "-";
-        console.error(err);
+const langData = {
+    ru: {
+        title: "Rust Server",
+        welcome: "Добро пожаловать на Rust Server!",
+        description: "У нас честная игра, активная администрация и постоянные эвенты. Присоединяйся прямо сейчас!",
+        connect: "Подключиться к серверу",
+        onlineTitle: "Онлайн игроков:",
+        statusTitle: "Статус сервера:",
+        footer: "© 2025 Rust Server | Сделано с ❤️"
+    },
+    en: {
+        title: "Rust Server",
+        welcome: "Welcome to Rust Server!",
+        description: "Fair gameplay, active admins, and regular events. Join us now!",
+        connect: "Connect to Server",
+        onlineTitle: "Players Online:",
+        statusTitle: "Server Status:",
+        footer: "© 2025 Rust Server | Made with ❤️"
     }
+};
+
+function setLanguage(lang) {
+    document.documentElement.lang = lang;
+    document.getElementById("title").textContent = langData[lang].title;
+    document.getElementById("welcome").textContent = langData[lang].welcome;
+    document.getElementById("description").textContent = langData[lang].description;
+    document.getElementById("connect").textContent = langData[lang].connect;
+    document.getElementById("online-title").textContent = langData[lang].onlineTitle;
+    document.getElementById("status-title").textContent = langData[lang].statusTitle;
+    document.getElementById("footer").textContent = langData[lang].footer;
+
+    document.querySelectorAll('nav a').forEach(a => {
+        a.textContent = a.getAttribute(`data-lang-${lang}`);
+    });
+
+    localStorage.setItem("language", lang);
 }
 
-async function updateServerStatus() {
-    try {
-        const res = await fetch("http://127.0.0.1:28082/api/serverstatus?apikey=YOUR_API_KEY"); 
-        const data = await res.json();
-        let statusText = "❔ Неизвестно";
+document.getElementById("lang-ru").addEventListener("click", () => setLanguage("ru"));
+document.getElementById("lang-en").addEventListener("click", () => setLanguage("en"));
 
-        if(data.Status === "online") statusText = "🟢 Онлайн";
-        else if(data.Status === "offline") statusText = "🔴 Оффлайн";
-        else if(data.Status === "restart") statusText = "🔄 Рестарт";
-
-        document.getElementById("server-status").innerText = statusText;
-    } catch(err) {
-        document.getElementById("server-status").innerText = "Ошибка загрузки статуса";
-        console.error(err);
-    }
-}
-
-updateOnline();
-updateServerStatus();
-setInterval(updateOnline, 60000);
-setInterval(updateServerStatus, 60000);
+const savedLang = localStorage.getItem("language") || "ru";
+setLanguage(savedLang);
 </script>
 </body>
 </html>
-
