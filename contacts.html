@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Контакты — Middelway Rust</title>
+
+<style>
+
+/* ===== БАЗА ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+}
+
+body {
+    background: url("images/rust-bg.jpg") center/cover no-repeat fixed;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+/* Глобальное затемнение */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: -1;
+}
+
+/* ===== HEADER ===== */
+.header {
+    width: 100%;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(10, 10, 15, 0.8);
+    backdrop-filter: blur(8px);
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 32px;
+    font-weight: 700;
+    color: #ff00ff;
+    text-shadow: 0 0 15px #ff00ff, 0 0 35px #b400ff;
+}
+
+#navMenu a {
+    margin-left: 25px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+#navMenu a:hover {
+    color: #ff00ff;
+    text-shadow: 0 0 10px #ff00ff;
+}
+
+.play-btn {
+    padding: 10px 22px;
+    background: linear-gradient(45deg, #ff00ff, #b400ff);
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    margin-left: 20px;
+    transition: 0.3s;
+    box-shadow: 0 0 25px #ff00ff;
+    cursor: pointer;
+}
+
+.play-btn:hover {
+    background: linear-gradient(45deg, #ff33ff, #cc00ff);
+    box-shadow: 0 0 40px #ff00ff;
+}
+
+.burger {
+    display: none;
+    font-size: 32px;
+    cursor: pointer;
+}
+
+/* ===== HERO ===== */
+.hero {
+    height: 40vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 80px;
+}
+
+.hero h1 {
+    font-size: 55px;
+    text-shadow: 0 0 25px #ff00ff, 0 0 55px #b400ff;
+}
+
+/* ===== CONTACT BLOCKS ===== */
+.contacts {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: rgba(60, 0, 90, 0.25);
+    border-radius: 20px;
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,0,255,0.3);
+    box-shadow: 0 0 30px #b400ff;
+}
+
+.contact-cards {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.card {
+    width: 260px;
+    padding: 20px;
+    background: rgba(90, 0, 120, 0.3);
+    border-radius: 15px;
+    border: 1px solid rgba(255,0,255,0.25);
+    text-align: center;
+    box-shadow: 0 0 20px #b400ff;
+    transition: 0.3s;
+}
+
+.card:hover {
+    box-shadow: 0 0 35px #ff00ff;
+    transform: translateY(-5px);
+}
+
+.card h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 15px #ff00ff;
+}
+
+.card a {
+    font-size: 19px;
+    color: #ffb7ff;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.card a:hover {
+    color: #ff00ff;
+    text-shadow: 0 0 12px #ff00ff;
+}
+
+/* ===== ADAPTIVE ===== */
+@media (max-width: 850px) {
+    #navMenu { display: none; }
+    .burger { display: block; }
+}
+
+</style>
+
+<script>
+
+function toggleMenu() {
+    const menu = document.getElementById("navMenu");
+    menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+}
+
+/* КНОПКА ПОДКЛЮЧЕНИЯ К RUST */
+function playRust() {
+    window.location.href = "steam://run/252490//+connect%20195.60.166.169:28015";
+}
+
+</script>
+
+</head>
+<body>
+
+<header class="header">
+    <div class="logo">Middelway</div>
+
+    <nav id="navMenu">
+        <a href="index.html">Главная</a>
+        <a href="about.html">О сервере</a>
+        <a href="rules.html">Правила</a>
+        <a href="connect.html">Подключение</a>
+        <a href="contacts.html">Контакты</a>
+    </nav>
+
+    <a onclick="playRust()" class="play-btn">Играть</a>
+
+    <div class="burger" onclick="toggleMenu()">☰</div>
+</header>
+
+<section class="hero">
+    <h1>Контакты</h1>
+</section>
+
+<div class="contacts">
+
+    <div class="contact-cards">
+
+        <div class="card">
+            <h3>💬 Discord</h3>
+            <a href="https://discord.gg/vBG5JWapT5" target="_blank">discord.gg/vBG5JWapT5</a>
+        </div>
+
+        <div class="card">
+            <h3>✈ Telegram</h3>
+            <a href="https://t.me/Middelway" target="_blank">@Middelway</a>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

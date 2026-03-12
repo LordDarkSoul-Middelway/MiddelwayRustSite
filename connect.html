@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Подключение — Middelway Rust</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="header">
+  <div class="logo glow">Middelway</div>
+
+  <nav id="navMenu">
+    <a href="index.html">Главная</a>
+    <a href="about.html">О сервере</a>
+    <a href="rules.html">Правила</a>
+    <a href="connect.html" class="active">Подключение</a>
+    <a href="contacts.html">Контакты</a>
+  </nav>
+
+  <!-- Кнопка ИГРАТЬ -->
+  <a onclick="playRust()" class="play-btn">Играть</a>
+
+  <div class="burger" onclick="toggleMenu()">☰</div>
+</header>
+
+<section class="hero connect-hero">
+    <h1>Статус сервера</h1>
+    <p class="sub">Активность Rust сервера Middelway в реальном времени</p>
+
+    <div class="server-info big-server-card">
+        <h3>Информация о сервере:</h3>
+        <p><strong>Статус:</strong> <span id="server-status">Загрузка...</span></p>
+        <p><strong>Игроков онлайн:</strong> <span id="server-players">—</span></p>
+    </div>
+</section>
+
+<script>
+function toggleMenu() {
+    const menu = document.getElementById("navMenu");
+    menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+}
+
+// ============ КНОПКА ИГРЫ ============
+function playRust() {
+    window.location = "steam://run/252490//+connect%20195.60.166.169:28015";
+}
+
+// ====== BattleMetrics API ======
+const SERVER_ID = "6803740";
+
+async function loadServerStatus() {
+    const statusEl = document.getElementById("server-status");
+    const playersEl = document.getElementById("server-players");
+
+    try {
+        const response = await fetch(`https://api.battlemetrics.com/servers/${SERVER_ID}`);
+        if (!response.ok) throw new Error();
+
+        const json = await response.json();
+        const data = json.data.attributes;
+
+        if (data.status === "online") {
+            statusEl.textContent = "Онлайн ✔";
+            statusEl.style.color = "#00ff88";
+        } else if (data.status === "dead") {
+            statusEl.textContent = "Выключен ✖";
+            statusEl.style.color = "#ff4444";
+        } else {
+            statusEl.textContent = "Перезагрузка...";
+            statusEl.style.color = "#ffaa00";
+        }
+
+        playersEl.textContent = `${data.players} / ${data.maxPlayers}`;
+
+    } catch {
+        statusEl.textContent = "Не подключён";
+        statusEl.style.color = "#ffcc00";
+        playersEl.textContent = "—";
+    }
+}
+
+loadServerStatus();
+setInterval(loadServerStatus, 1000);
+</script>
+
+</body>
+</html>

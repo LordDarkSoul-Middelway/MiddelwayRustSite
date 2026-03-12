@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>О сервере — Middelway Rust</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+}
+
+body {
+    background: url("images/rust-bg.jpg") center/cover no-repeat fixed;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: -1;
+}
+
+.header {
+    width: 100%;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(10, 10, 15, 0.8);
+    backdrop-filter: blur(8px);
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 32px;
+    font-weight: 700;
+    color: #ff00ff;
+    text-shadow: 0 0 15px #ff00ff, 0 0 35px #b400ff;
+}
+
+#navMenu a {
+    margin-left: 25px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+#navMenu a:hover {
+    color: #ff00ff;
+    text-shadow: 0 0 12px #ff00ff;
+}
+
+.play-btn {
+    padding: 10px 22px;
+    background: linear-gradient(45deg, #ff00ff, #b400ff);
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    margin-left: 20px;
+    transition: 0.3s;
+    box-shadow: 0 0 25px #ff00ff;
+    cursor: pointer;
+    border: none;
+    display: inline-block;
+}
+
+.play-btn:hover {
+    background: linear-gradient(45deg, #ff33ff, #cc00ff);
+    box-shadow: 0 0 40px #ff00ff;
+}
+
+.burger {
+    display: none;
+    font-size: 32px;
+    cursor: pointer;
+}
+
+.hero {
+    height: 40vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    margin-top: 80px;
+}
+
+.hero h1 {
+    font-size: 50px;
+    text-shadow: 0 0 25px #ff00ff, 0 0 55px #b400ff;
+}
+
+.content {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: rgba(60,0,90,0.25);
+    border-radius: 20px;
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,0,255,0.3);
+    box-shadow: 0 0 30px #b400ff;
+}
+
+.content h2 {
+    font-size: 32px;
+    margin-bottom: 15px;
+    text-shadow: 0 0 18px #ff00ff;
+}
+
+.content p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 18px;
+}
+
+.features {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.card {
+    width: 260px;
+    padding: 20px;
+    background: rgba(90, 0, 120, 0.3);
+    border-radius: 15px;
+    border: 1px solid rgba(255,0,255,0.25);
+    text-align: center;
+    box-shadow: 0 0 20px #b400ff;
+    transition: 0.3s;
+}
+
+.card:hover {
+    box-shadow: 0 0 35px #ff00ff;
+    transform: translateY(-5px);
+}
+
+.card h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 12px #ff00ff;
+}
+
+.card p {
+    font-size: 17px;
+}
+
+@media (max-width: 850px) {
+    #navMenu { display: none; }
+    .burger { display: block; }
+}
+</style>
+
+<script>
+function toggleMenu() {
+    const menu = document.getElementById("navMenu");
+    menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+}
+
+function playRust() {
+    window.location.href = "steam://run/252490//+connect%20195.60.166.169:28015";
+}
+</script>
+
+</head>
+<body>
+
+<header class="header">
+    <div class="logo">Middelway</div>
+
+    <nav id="navMenu">
+        <a href="index.html">Главная</a>
+        <a href="about.html">О сервере</a>
+        <a href="rules.html">Правила</a>
+        <a href="connect.html">Подключение</a>
+        <a href="contacts.html">Контакты</a>
+    </nav>
+
+    <a onclick="playRust()" class="play-btn">Играть</a>
+
+    <div class="burger" onclick="toggleMenu()">☰</div>
+</header>
+
+<section class="hero">
+    <h1>О сервере</h1>
+</section>
+
+<div class="content">
+    <h2>Что такое Middelway Rust?</h2>
+    <p>
+        Middelway — это уникальный Rust-сервер
+    </p>
+
+    <p>
+        Наша команда постоянно улучшает сервер, добавляет новые функции, следит за стабильностью и делает всё, чтобы
+        игрокам было комфортно и интересно развиваться.
+    </p>
+
+    <h2>Особенности сервера</h2>
+
+    <div class="features">
+
+        <div class="card">
+            <h3>⚡ Ванилла+</h3>
+            <p>Ванилный сервер с доп плагинами для улучшения игрового процеса.</p>
+        </div>
+
+        <div class="card">
+            <h3>🔥 Честное Развитие</h3>
+            <p>Нет Pay-to-Win так как нет магазина с донатом но если поддержать сервер то можно получить вип.</p>
+        </div>
+
+        <div class="card">
+            <h3>🛡️ Активная администрация</h3>
+            <p>Админы следят за сервером 24/7 и быстро реагируют на читеров и нарушения.</p>
+        </div>
+
+        <div class="card">
+            <h3>📅 Регулярные вайпы</h3>
+            <p>Стабильный график вайпов и обновлений.</p>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

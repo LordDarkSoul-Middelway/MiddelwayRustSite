@@ -1,209 +1,242 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rust Server | Главная</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
-
-:root {
-    --main-color: #b84cff;
-    --accent-color: #ff4fd8;
-}
-
-body {
-    margin: 0;
-    font-family: 'Russo One', sans-serif;
-    background: url('rust-bg.jpg') center/cover no-repeat fixed;
-    color: #eaeaea;
-    text-shadow: 1px 1px 2px #000;
-}
-body::before {
-    content: "";
-    position: fixed;
-    top:0; left:0; right:0; bottom:0;
-    background: rgba(10,0,20,0.7);
-    z-index: -1;
-}
-
-header {
-    background: linear-gradient(180deg, rgba(25,0,40,0.95), rgba(10,0,20,0.9));
-    padding: 25px 0;
-    text-align: center;
-    border-bottom: 3px solid var(--main-color);
-    box-shadow: 0 0 25px rgba(184,76,255,0.3);
-    position: relative;
-}
-header h1 { margin:0; color: var(--main-color); letter-spacing:3px; font-size:2.4em; text-shadow:0 0 15px rgba(184,76,255,0.7); }
-nav a {
-    color: #ccc;
-    margin: 0 15px;
-    text-decoration:none;
-    font-weight:bold;
-    transition:0.3s;
-}
-nav a:hover, nav a.active {
-    color: var(--accent-color);
-    text-shadow: 0 0 8px var(--accent-color);
-}
-
-/* Переключатель языка */
-.lang-switch {
-    position: absolute;
-    top: 25px;
-    right: 25px;
-}
-.lang-switch button {
-    background: rgba(25,0,40,0.8);
-    border: 1px solid var(--main-color);
-    color: #fff;
-    padding: 6px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.3s;
-    font-weight: bold;
-}
-.lang-switch button:hover {
-    background: var(--main-color);
-    box-shadow: 0 0 10px var(--accent-color);
-}
-
-/* Контент */
-.content {
-    max-width: 1000px;
-    margin: 60px auto;
-    background: rgba(15,0,25,0.85);
-    padding: 40px;
-    border-radius: 12px;
-    border:1px solid rgba(184,76,255,0.3);
-    box-shadow:0 0 30px rgba(184,76,255,0.2);
-    animation: fadeIn 1.2s ease;
-}
-@keyframes fadeIn { from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
-.content h2 { text-align:center; color: var(--main-color); text-transform: uppercase; letter-spacing:2px; text-shadow:0 0 15px rgba(184,76,255,0.7); }
-.content p { line-height:1.6; font-size:1.1em; }
-.button {
-    display:inline-block; padding:12px 25px; background: var(--accent-color); color:#fff; border-radius:8px; text-decoration:none; font-size:1.1em; box-shadow:0 0 15px rgba(255,79,216,0.5); transition:0.3s;
-}
-.button:hover { background: var(--main-color); box-shadow:0 0 25px rgba(184,76,255,0.7); }
-
-/* Онлайн и статус */
-.status-box, .online-box {
-    display:flex;
-    justify-content: space-around;
-    margin-top: 20px;
-    font-size:1.2em;
-}
-.status-box div, .online-box div {
-    background: rgba(40,0,50,0.8);
-    padding: 15px 25px;
-    border-radius: 10px;
-    border:1px solid var(--accent-color);
-    text-align:center;
-    flex:1;
-    margin: 0 10px;
-    transition:0.3s;
-}
-.status-box div:hover, .online-box div:hover {
-    box-shadow:0 0 20px var(--accent-color);
-    text-shadow:0 0 8px var(--accent-color);
-}
-
-/* Футер */
-footer {
-    width: 100%;
-    text-align: center;
-    padding: 25px;
-    background: rgba(15,0,25,0.9);
-    color:#aaa;
-    border-top:2px solid rgba(184,76,255,0.3);
-    box-sizing: border-box;
-}
-</style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Middelway Rust Server</title>
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<header>
-    <h1 id="title">Rust Server</h1>
-    <nav>
-        <a href="index.html" class="active" data-lang-ru="Главная" data-lang-en="Home">Главная</a>
-        <a href="news.html" data-lang-ru="Новости" data-lang-en="News">Новости</a>
-        <a href="rules.html" data-lang-ru="Правила" data-lang-en="Rules">Правила</a>
-        <a href="donate.html" data-lang-ru="Донат" data-lang-en="Donate">Донат</a>
-        <a href="social.html" data-lang-ru="Соцсети" data-lang-en="Socials">Соцсети</a>
-    </nav>
-    <div class="lang-switch">
-        <button id="lang-ru">RU</button>
-        <button id="lang-en">EN</button>
-    </div>
+
+<header class="header">
+  <div class="logo glow">Middelway</div>
+
+  <nav id="navMenu">
+    <a href="index.html">Главная</a>
+    <a href="about.html">О сервере</a>
+    <a href="rules.html">Правила</a>
+    <a href="connect.html">Подключение</a>
+    <a href="contacts.html">Контакты</a>
+  </nav>
+
+  <a onclick="playRust()" class="play-btn">Играть</a>
+
+  <div class="burger" onclick="toggleMenu()">☰</div>
 </header>
 
-<div class="content">
-    <h2 id="welcome">Добро пожаловать на Rust Server!</h2>
-    <p id="description">У нас честная игра, активная администрация и постоянные эвенты. Присоединяйся прямо сейчас!</p>
-    <a class="button" href="steam://connect/127.0.0.1:28015" id="connect">Подключиться к серверу</a>
-
-    <h3 id="online-title">Онлайн игроков:</h3>
-    <div class="online-box">
-        <div id="online">🟢 Онлайн: загрузка...</div>
-        <div id="sleeping">💤 Спят: загрузка...</div>
-        <div id="joining">⚡ Заходят: загрузка...</div>
+<section class="server-info">
+    <div class="info-line">
+        <span class="info-title">Вайп:</span>
+        <span class="info-value">Каждую пятницу</span>
     </div>
 
-    <h3 id="status-title">Статус сервера:</h3>
-    <div class="status-box">
-        <div id="server-status">Загрузка...</div>
+    <div class="info-line">
+        <span class="info-title">Следующий вайп:</span>
+        <span class="info-value" id="wipe-timer">Загрузка...</span>
     </div>
-</div>
 
-<footer id="footer">
-    © 2025 Rust Server | Сделано с ❤️
-</footer>
+    <div class="info-line">
+        <span class="info-title">Рейт:</span>
+        <span class="info-value">x2</span>
+    </div>
+
+    <div class="info-line">
+        <span class="info-title">Карта:</span>
+        <span class="info-value">Procedural 3500</span>
+    </div>
+</section>
+
+<section class="news-section">
+    <h2>Новости сервера</h2>
+
+    <div class="news-container">
+
+        <div class="news-card">
+            <h3>🔥 Последний вайп</h3>
+            <p>
+                На сервере прошёл свежий вайп. Игроков ждёт новый старт, обновлённая карта и честная борьба с первых минут.
+            </p>
+        </div>
+
+        <div class="news-card">
+            <h3>⚡ Обновления Middelway</h3>
+            <p>
+                Мы продолжаем улучшать стабильность сервера, баланс и удобство игры. Следи за новостями, чтобы ничего не пропустить.
+            </p>
+        </div>
+
+        <div class="news-card">
+            <h3>📢 Важно</h3>
+            <p>
+                Не забывай читать правила сервера и заходить в Discord, чтобы быть в курсе всех изменений, ивентов и объявлений.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<section class="donate-goal">
+    <h2>Поддержка сервера</h2>
+
+    <div class="donate-card">
+        <div class="donate-text">
+            <span id="donate-current">100</span> ₽ из
+            <span id="donate-goal">1000</span> ₽
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+
+        <div class="progress-percent" id="progress-percent">0%</div>
+    </div>
+</section>
+
+<section id="home" class="hero">
+  <div class="hero-overlay"></div>
+</section>
+
+<section class="top-stats">
+    <h2>Топ игроков</h2>
+
+    <div class="tops-container">
+
+        <div class="top-card">
+            <h3>⚔️ Топ по киллам</h3>
+            <ul id="top-kills">
+                <li>Загрузка...</li>
+            </ul>
+        </div>
+
+        <div class="top-card">
+            <h3>⛏️ Топ по фарму</h3>
+            <ul id="top-farm">
+                <li>Загрузка...</li>
+            </ul>
+        </div>
+
+        <div class="top-card">
+            <h3>💣 Топ по рейдам</h3>
+            <ul id="top-raids">
+                <li>Загрузка...</li>
+            </ul>
+        </div>
+
+    </div>
+</section>
 
 <script>
-const langData = {
-    ru: {
-        title: "Rust Server",
-        welcome: "Добро пожаловать на Rust Server!",
-        description: "У нас честная игра, активная администрация и постоянные эвенты. Присоединяйся прямо сейчас!",
-        connect: "Подключиться к серверу",
-        onlineTitle: "Онлайн игроков:",
-        statusTitle: "Статус сервера:",
-        footer: "© 2025 Rust Server | Сделано с ❤️"
-    },
-    en: {
-        title: "Rust Server",
-        welcome: "Welcome to Rust Server!",
-        description: "Fair gameplay, active admins, and regular events. Join us now!",
-        connect: "Connect to Server",
-        onlineTitle: "Players Online:",
-        statusTitle: "Server Status:",
-        footer: "© 2025 Rust Server | Made with ❤️"
-    }
-};
-
-function setLanguage(lang) {
-    document.documentElement.lang = lang;
-    document.getElementById("title").textContent = langData[lang].title;
-    document.getElementById("welcome").textContent = langData[lang].welcome;
-    document.getElementById("description").textContent = langData[lang].description;
-    document.getElementById("connect").textContent = langData[lang].connect;
-    document.getElementById("online-title").textContent = langData[lang].onlineTitle;
-    document.getElementById("status-title").textContent = langData[lang].statusTitle;
-    document.getElementById("footer").textContent = langData[lang].footer;
-
-    document.querySelectorAll('nav a').forEach(a => {
-        a.textContent = a.getAttribute(`data-lang-${lang}`);
-    });
-
-    localStorage.setItem("language", lang);
+function toggleMenu() {
+    const menu = document.getElementById("navMenu");
+    menu.style.display = menu.style.display === "flex" ? "none" : "flex";
 }
 
-document.getElementById("lang-ru").addEventListener("click", () => setLanguage("ru"));
-document.getElementById("lang-en").addEventListener("click", () => setLanguage("en"));
+/* ФУНКЦИЯ ПОДКЛЮЧЕНИЯ К RUST */
+function playRust() {
+    window.location.href = "steam://run/252490//+connect%20195.60.166.169:28015";
+}
 
-const savedLang = localStorage.getItem("language") || "ru";
-setLanguage(savedLang);
+/* АВТОМАТИЧЕСКИЙ ВАЙП КАЖДУЮ ПЯТНИЦУ */
+function getNextWipeDate() {
+    const now = new Date();
+
+    const wipeDay = 5;
+    const wipeHour = 15;
+    const wipeMinute = 0;
+    const wipeSecond = 0;
+
+    let next = new Date(now);
+    let daysUntil = wipeDay - now.getDay();
+
+    if (daysUntil < 0) {
+        daysUntil += 7;
+    }
+
+    next.setDate(now.getDate() + daysUntil);
+    next.setHours(wipeHour, wipeMinute, wipeSecond, 0);
+
+    if (next <= now) {
+        next.setDate(next.getDate() + 7);
+    }
+
+    return next;
+}
+
+function updateWipeTimer() {
+    const wipeTimerEl = document.getElementById("wipe-timer");
+    const now = new Date();
+    const nextWipe = getNextWipeDate();
+    const diff = nextWipe - now;
+
+    if (diff <= 0) {
+        wipeTimerEl.textContent = "Вайп!";
+        return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / (1000) % 60));
+
+    if (days >= 1) {
+        wipeTimerEl.textContent = `${days} дн.`;
+    } else {
+        wipeTimerEl.textContent = `${hours}ч ${minutes}м ${seconds}с`;
+    }
+}
+
+/* ТОП СТАТИСТИКА */
+function loadTopStats() {
+    const kills = [
+        "1. Shadow — 152 убийств",
+        "2. Rager — 140 убийств",
+        "3. DEDINSIDE — 118 убийств"
+    ];
+
+    const farm = [
+        "1. Hentai — 1М ресурсов",
+        "2. WoodMan — 180k ресурсов",
+        "3. Farmlord — 160k ресурсов"
+    ];
+
+    const raids = [
+        "1. BoomMaster — 22 рейда",
+        "2. C4King — 19 рейдов",
+        "3. RAIDR — 17 рейдов"
+    ];
+
+    document.getElementById("top-kills").innerHTML =
+        kills.map(i => `<li>${i}</li>`).join("");
+
+    document.getElementById("top-farm").innerHTML =
+        farm.map(i => `<li>${i}</li>`).join("");
+
+    document.getElementById("top-raids").innerHTML =
+        raids.map(i => `<li>${i}</li>`).join("");
+}
+
+/* ПРОГРЕСС ПОДДЕРЖКИ */
+function updateDonateProgress(current, goal) {
+    const currentEl = document.getElementById("donate-current");
+    const goalEl = document.getElementById("donate-goal");
+    const fillEl = document.getElementById("progress-fill");
+    const percentEl = document.getElementById("progress-percent");
+
+    const percent = Math.min((current / goal) * 100, 100);
+
+    currentEl.textContent = current;
+    goalEl.textContent = goal;
+    fillEl.style.width = percent + "%";
+    percentEl.textContent = Math.round(percent) + "%";
+}
+
+loadTopStats();
+updateWipeTimer();
+setInterval(updateWipeTimer, 1000);
+
+/* Тут меняешь суммы */
+updateDonateProgress(0, 1000);
 </script>
+
 </body>
 </html>

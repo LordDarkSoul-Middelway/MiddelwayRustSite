@@ -1,249 +1,112 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Правила | Rust Server</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Правила — Middelway Rust</title>
+
+<link rel="stylesheet" href="style.css" />
+
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
-
-body {
-  margin: 0;
-  font-family: 'Russo One', sans-serif;
-  background: url('rust-bg.jpg') center/cover no-repeat fixed;
-  color: #eaeaea;
-  text-shadow: 1px 1px 2px #000;
+/* Уменьшение высоты hero на странице правил */
+.hero-small {
+    height: 40vh;
 }
-body::before {
-  content: "";
-  position: fixed;
-  top:0; left:0; right:0; bottom:0;
-  background: rgba(10,0,20,0.7);
-  z-index: -1;
+.rule-block {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 25px;
+    background: rgba(60,0,90,0.25);
+    backdrop-filter: blur(6px);
+    border-radius: 20px;
+    border: 1px solid rgba(255,0,255,0.35);
+    box-shadow: 0 0 30px #b400ff;
 }
 
-/* Шапка */
-header {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: linear-gradient(180deg, rgba(25,0,40,0.95), rgba(10,0,20,0.9));
-  border-bottom: 3px solid #b84cff;
-  padding: 20px 0;
+.rule-block h2 {
+    font-size: 32px;
+    margin-bottom: 15px;
+    text-shadow: 0 0 18px #ff00ff;
 }
 
-header h1 {
-  margin: 0;
-  color:#b84cff;
-  font-size:2em;
-  text-align: center;
-  text-shadow: 0 0 15px rgba(184,76,255,0.7);
+.rule-block ul {
+    list-style: none;
 }
 
-/* Навигация */
-nav {
-  margin-top:10px;
-  display: flex;
-  gap:10px;
-}
-
-.nav-link {
-  color: #ccc;
-  text-decoration:none;
-  font-weight:bold;
-  transition:0.3s;
-  padding:6px 12px;
-  border-radius:6px;
-  text-shadow:0 0 0px #000;
-}
-.nav-link.active,
-.nav-link:hover {
-  color: #ff4fd8;
-  text-shadow: 0 0 12px #ff4fd8, 0 0 25px rgba(184,76,255,0.6);
-  background: none;
-}
-
-/* Переключатель языков */
-.lang-switch {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  display: flex;
-  gap: 8px;
-}
-.lang-btn {
-  cursor: pointer;
-  padding: 4px 10px;
-  border-radius: 6px;
-  color: #ccc;
-  border: 1px solid rgba(184,76,255,0.4);
-  background: rgba(15,0,25,0.6);
-  font-size: 0.9em;
-  transition: 0.3s;
-}
-.lang-btn:hover,
-.lang-btn.active {
-  color: #ff4fd8;
-  text-shadow: 0 0 8px #ff4fd8;
-  border-color: #ff4fd8;
-}
-
-/* Контент */
-.content {
-  max-width:600px;
-  margin:60px auto;
-  background: rgba(15,0,25,0.85);
-  padding:40px;
-  border-radius:12px;
-  text-align:center;
-  border:1px solid rgba(184,76,255,0.3);
-  box-shadow:0 0 25px rgba(184,76,255,0.2);
-}
-
-/* Аккордеон */
-.accordion {
-  background: rgba(15,0,25,0.85);
-  color: #eaeaea;
-  cursor: pointer;
-  padding: 15px;
-  width: 100%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 1.1em;
-  margin-bottom: 5px;
-  border-radius:8px;
-  transition: 0.3s;
-  border-left: 4px solid #b84cff;
-  box-shadow:0 0 10px rgba(184,76,255,0.3);
-}
-.accordion:hover,
-.accordion.active {
-  box-shadow: 0 0 20px #ff4fd8;
-}
-
-.panel {
-  padding: 0 15px 10px 15px;
-  background-color: rgba(15,0,25,0.8);
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-  border-radius:6px;
-  border-left: 4px solid #ff4fd8;
-  margin-bottom: 10px;
-}
-
-.panel ul { list-style:none; padding-left:10px; text-align:left; }
-.panel li { padding:5px 0; }
-
-/* Кнопка Discord */
-.button {
-  display: inline-block;
-  padding: 12px 25px;
-  background: #b84cff;
-  color: #fff;
-  border-radius: 8px;
-  text-decoration: none;
-  margin-top: 15px;
-  box-shadow:0 0 15px rgba(184,76,255,0.5);
-  transition: 0.3s;
-}
-.button:hover {
-  background: #ff4fd8;
-  box-shadow:0 0 25px rgba(255,79,216,0.7);
-}
-
-/* Подвал */
-footer {
-  text-align:center;
-  padding:25px;
-  background: rgba(15,0,25,0.9);
-  color:#aaa;
-  border-top:2px solid rgba(184,76,255,0.3);
+.rule-block li {
+    font-size: 18px;
+    margin-bottom: 12px;
+    padding-left: 10px;
+    border-left: 3px solid #ff00ff;
 }
 </style>
-</head>
-<body>
-<header>
-  <h1>Rust Server</h1>
-  <div class="lang-switch">
-    <div class="lang-btn" data-lang="ru">RU</div>
-    <div class="lang-btn" data-lang="en">EN</div>
-  </div>
-  <nav>
-    <a href="index.html" class="nav-link">Главная</a>
-    <a href="news.html" class="nav-link">Новости</a>
-    <a href="rules.html" class="nav-link active">Правила</a>
-    <a href="donate.html" class="nav-link">Донат</a>
-    <a href="social.html" class="nav-link">Соцсети</a>
-  </nav>
-</header>
-
-<div class="content" id="rulesContent">
-  <!-- Контент заполняется через JS -->
-</div>
-
-<footer>
-© 2025 Rust Server | Сделано с ❤️
-</footer>
 
 <script>
-const langData = {
-  ru: {
-    title: "Правила сервера",
-    sections: [
-      { title: "⚔ PvP и рейды", rules: ["❌ Грифинг без PvP запрещён", "✅ Защищайте свои базы честно"] },
-      { title: "🛠 Читерство и баги", rules: ["❌ Запрещены читы, эксплойты и баги", "✅ Сообщайте о найденных багах администрации"] },
-      { title: "💬 Общение", rules: ["❌ Оскорбления игроков и администрации запрещены", "✅ Уважайте других и помогайте новичкам"] },
-      { title: "📢 Новости и события", rules: ["✅ Следите за событиями и обновлениями в Discord"] }
-    ],
-    discord: "Обсудить правила в Discord"
-  },
-  en: {
-    title: "Server Rules",
-    sections: [
-      { title: "⚔ PvP & Raids", rules: ["❌ Griefing without PvP is forbidden", "✅ Defend your base fairly"] },
-      { title: "🛠 Cheating & Bugs", rules: ["❌ Cheats, exploits and bug abuse are prohibited", "✅ Report any bugs to the admin team"] },
-      { title: "💬 Communication", rules: ["❌ Insults towards players or admins are not allowed", "✅ Respect others and help newcomers"] },
-      { title: "📢 News & Events", rules: ["✅ Follow updates and events on Discord"] }
-    ],
-    discord: "Discuss the rules on Discord"
-  }
-};
-
-function renderContent(lang) {
-  const content = document.getElementById('rulesContent');
-  const data = langData[lang];
-  let html = `<h2>${data.title}</h2>`;
-  data.sections.forEach(section => {
-    html += `<button class="accordion">${section.title}</button><div class="panel"><ul>${section.rules.map(r => `<li>${r}</li>`).join('')}</ul></div>`;
-  });
-  html += `<a class="button" href="discord.html">${data.discord}</a>`;
-  content.innerHTML = html;
-
-  // Аккордеоны заново активируем
-  const acc = document.getElementsByClassName("accordion");
-  for (let i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function() {
-      this.classList.toggle("active");
-      const panel = this.nextElementSibling;
-      if (panel.style.maxHeight) panel.style.maxHeight = null;
-      else panel.style.maxHeight = panel.scrollHeight + "px";
-    });
-  }
+function toggleMenu() {
+    const menu = document.getElementById("navMenu");
+    menu.style.display = menu.style.display === "flex" ? "none" : "flex";
 }
-
-// Язык по умолчанию
-let currentLang = localStorage.getItem('siteLang') || 'ru';
-renderContent(currentLang);
-document.querySelectorAll('.lang-btn').forEach(btn => {
-  if (btn.dataset.lang === currentLang) btn.classList.add('active');
-  btn.addEventListener('click', () => {
-    localStorage.setItem('siteLang', btn.dataset.lang);
-    location.reload();
-  });
-});
 </script>
+
+</head>
+<body>
+
+<!-- ======= HEADER ======= -->
+<header class="header">
+    <div class="logo">Middelway</div>
+
+    <nav id="navMenu">
+    <a href="index.html">Главная</a>
+    <a href="about.html">О сервере</a>
+    <a href="rules.html">Правила</a>
+    <a href="connect.html">Подключение</a>
+    <a href="contacts.html">Контакты</a>
+</nav>
+
+
+    <a href="steam://connect/YOUR-IP:PORT" class="play-btn">Играть</a>
+
+    <div class="burger" onclick="toggleMenu()">☰</div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero hero-small">
+    <h1>Правила сервера</h1>
+</section>
+
+<!-- ===== RULES ===== -->
+<div class="rule-block">
+
+    <h2>1. Общие правила</h2>
+    <ul>
+        <li>Запрещены читы, макросы, софт и любые программы, дающие преимущество.</li>
+        <li>Запрещено использование багов игры.</li>
+        <li>Уважайте других игроков и администрацию.</li>
+        <li>Запрещена реклама сторонних серверов.</li>
+    </ul>
+
+    <h2>2. Правила поведения</h2>
+    <ul>
+        <li>Оскорбления запрещены (лёгкий трешток допускается).</li>
+        <li>Запрещён спам и флуд в чате.</li>
+        <li>Запрещено выдавать себя за администрацию.</li>
+    </ul>
+
+    <h2>3. Игровые правила</h2>
+    <ul>
+        <li>Запрещено специально мешать развитию союзников.</li>
+        <li>Запрещено ы</li>
+        <li>Запрещён 3+.</li>
+    </ul>
+
+    <h2>4. Наказания</h2>
+    <ul>
+        <li>Администрация имеет право выдавать наказания по своему усмотрению.</li>
+        <li>Попытка обхода бана → перманентный бан.</li>
+        <li>Мультиаккаунты для обхода ограничений — запрещены.</li>
+    </ul>
+
+</div>
+
 </body>
 </html>
